@@ -14,7 +14,7 @@ public static class Utilidad
             Destreza = aleatorio.Next(1, 5),
             Fuerza = aleatorio.Next(1, 10),
             Nivel = aleatorio.Next(1, 10),
-            Amardura = aleatorio.Next(1, 10)
+            Armadura = aleatorio.Next(1, 10)
         };
 
         return datos;
