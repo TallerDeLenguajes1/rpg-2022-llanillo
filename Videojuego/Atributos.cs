@@ -40,7 +40,17 @@ public struct Datos{
     public float Destreza;
     public float Fuerza;
     public int Nivel;
-    public float Amardura;
+    public float Armadura;
+
+    public float PoderDeAtaque()
+    {
+        return Destreza * Fuerza * Nivel;
+    }
+
+    public float PoderDeDefensa()
+    {
+        return Armadura * Velocidad;
+    }
 }
 
 /*
