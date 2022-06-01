@@ -1,4 +1,4 @@
-﻿namespace RPG;
+﻿namespace Videojuego;
 
 /*
  * Enumeración que define los tipos de personaje

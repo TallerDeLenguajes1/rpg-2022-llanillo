@@ -1,16 +1,13 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace RPG;
+﻿namespace Videojuego;
 
 public static class Utilidad
 {
     /*
-    *   Devuelve un personaje con datos y características aleatorias
-    */
-    public static Personaje CrearPersonajeAleatorio(string nombre, string apodo)
+     * Devuelve datos de personaje aleatorios
+     */
+    public static Datos CrearDatosAleatorios()
     {
         Random aleatorio = new Random();
-        
         Datos datos = new Datos
         {
             Velocidad = aleatorio.Next(1, 10),
@@ -20,6 +17,15 @@ public static class Utilidad
             Amardura = aleatorio.Next(1, 10)
         };
 
+        return datos;
+    }
+
+    /*
+     * Devuelve caracteristicas de personaje aleatorias
+     */
+    public static Caracteristicas CrearCaracteristicasAleatorias()
+    {
+        Random aleatorio = new Random();
         var tipos = Enum.GetValues<Tipo>();
         var fechaAleatoria = CrearFechaAleatoria();
         int edadAleatoria = CalcularEdad(fechaAleatoria);
@@ -33,10 +39,9 @@ public static class Utilidad
             Edad = edadAleatoria,
             Salud = 100
         };
-    
-        return new Personaje(datos, caracteristicas);
+        
+        return caracteristicas;
     }
-
     /*
      * Devuelve una fecha aleatoria desde 1940 hasta 2022
      */
