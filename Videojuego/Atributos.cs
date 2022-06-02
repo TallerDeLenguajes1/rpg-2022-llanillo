@@ -16,19 +16,19 @@ public enum Tipo
  */
 public static class Titulo
 {
-    private static readonly string[] Nombres = { "Beatriz", "Orlando", "Thor", "Loki" };
-    private static readonly string[] Apodos = { "Mata-Dragones", "Mata-Chorizos", "Mata-Suegras" };
+    private static readonly string[] Nombres = { "Beatriz", "Orlando", "Thor", "Loki", "Pepe" };
+    private static readonly string[] Apodos = { "Mata-Dragones", "Mata-Chorizos", "Mata-Suegras", "Destructor", "Peregrino" };
 
     public static string ObtenerNombreAleatorio()
     {
         Random aleatorio = new Random();
-        return Apodos[aleatorio.Next(Apodos.Length)];
+        return Nombres[aleatorio.Next(Apodos.Length)];
     }
 
     public static string ObtenerApodoAleatorio()
     {
         Random aleatorio = new Random();
-        return Nombres[aleatorio.Next(Nombres.Length)];
+        return Apodos[aleatorio.Next(Nombres.Length)];
     }
 }
 

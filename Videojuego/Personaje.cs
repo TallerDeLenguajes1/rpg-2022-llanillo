@@ -2,28 +2,35 @@ namespace Videojuego;
 
 public class Personaje{
 
-    private const int MaximoDanoProvocable = 5000;
+    private const int MaximoDanoProvocable = 50000;
     
     private Caracteristicas _caracteristicas;
     private Datos _datos;
     
+    public Datos Datos => _datos;
+
+    public Caracteristicas Caracteristicas => _caracteristicas;
+    
+
     public Personaje(Datos datos, Caracteristicas caracteristicas)
     {
-        datos = datos;
+        _datos = datos;
         _caracteristicas = caracteristicas;
     }
 
     /*
-     * Actualiza la vida del personaje recibido según el daño provocado generado aleatorio
+     * Actualiza la vida del personaje recibido según el daño generado aleatoriamente
      */
-    public void AtacarPersonaje(Personaje personaje)
+    public int AtacarPersonaje(ref Personaje personaje)
     {
         Random aleatorio = new Random();
-        double efectividadDisparo = aleatorio.NextDouble();
+        int efectividadDisparo = aleatorio.Next(101);
         double valorAtaque = _datos.PoderDeAtaque() * efectividadDisparo;
-        double DanoProvocado = ((valorAtaque * efectividadDisparo - personaje._datos.PoderDeDefensa()) 
-                                / MaximoDanoProvocable) * 100;
-        personaje._caracteristicas.Salud -= (int) DanoProvocado;
+        int danoProvocado = (int)(((valorAtaque - personaje.Datos.PoderDeDefensa())
+                                   / MaximoDanoProvocable) * 100);
+        personaje._caracteristicas.Salud -= danoProvocado;
+
+        return danoProvocado;
     }
 
     /*
@@ -32,7 +39,7 @@ public class Personaje{
     public void SubirNivel()
     {
         Random aleatorio = new Random();
-        float porcentajePoder = 1 + aleatorio.Next(5, 10) / 100;
+        float porcentajePoder = 1 + aleatorio.Next(5, 11) / 100;
             
         switch (aleatorio.Next(5))
         {
@@ -56,28 +63,18 @@ public class Personaje{
         _datos.Nivel++;
     }
     
-    /*
-     * Muestra las características del personaje
-     */
-    public void MostrarCaracteristicas()
+    public int ObtenerSalud()
     {
-        Console.WriteLine("Tipo: " + _caracteristicas.Tipo);
-        Console.WriteLine("Nombre: " + _caracteristicas.Nombre);
-        Console.WriteLine("Apodo: " + _caracteristicas.Apodo);
-        Console.WriteLine("Fecha Nacimiento: " + _caracteristicas.FechaNacimiento);
-        Console.WriteLine("Edad: " + _caracteristicas.Edad);
-        Console.WriteLine("Salud: " + _caracteristicas.Salud);  
+        return _caracteristicas.Salud;
     }
-    
-    /*
-     * Muestra los datos del personaje
-     */
-    public void MostrarDatos()
+
+    public string ObtenerNombre()
     {
-        Console.WriteLine("Velocidad: " + _datos.Velocidad);
-        Console.WriteLine("Destreza: " + _datos.Destreza);
-        Console.WriteLine("Fuerza: " + _datos.Fuerza);
-        Console.WriteLine("Nivel: " + _datos.Nivel);
-        Console.WriteLine("Amardura: " + _datos.Armadura);
+        return _caracteristicas.Nombre;
+    }
+
+    public string ObtenerApodo()
+    {
+        return _caracteristicas.Apodo;
     }
 }
