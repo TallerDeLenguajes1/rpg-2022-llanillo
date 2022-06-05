@@ -34,7 +34,7 @@ public static class UtilidadJuego
         
         Caracteristicas caracteristicas = new Caracteristicas
         {
-            Tipo = (Tipo) tipos.GetValue(aleatorio.Next(tipos.Length)),
+            Tipo = (Tipo) (tipos.GetValue(aleatorio.Next(tipos.Length)) ?? throw new InvalidOperationException()),
             Nombre = Titulo.ObtenerNombreAleatorio(),
             Apodo = Titulo.ObtenerApodoAleatorio(),
             FechaNacimiento = fechaAleatoria,

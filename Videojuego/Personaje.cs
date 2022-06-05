@@ -26,8 +26,7 @@ public class Personaje{
         Random aleatorio = new Random();
         int efectividadDisparo = aleatorio.Next(101);
         double valorAtaque = _datos.PoderDeAtaque() * efectividadDisparo;
-        int danoProvocado = (int)(((valorAtaque - personaje.Datos.PoderDeDefensa())
-                                   / MaximoDanoProvocable) * 100);
+        var danoProvocado = (int)(((valorAtaque - personaje.Datos.PoderDeDefensa()) / MaximoDanoProvocable) * 100);
         personaje._caracteristicas.Salud -= danoProvocado;
 
         return danoProvocado;
@@ -70,11 +69,11 @@ public class Personaje{
 
     public string ObtenerNombre()
     {
-        return _caracteristicas.Nombre;
+        return _caracteristicas.Nombre ?? string.Empty;
     }
 
     public string ObtenerApodo()
     {
-        return _caracteristicas.Apodo;
+        return _caracteristicas.Apodo ?? string.Empty;
     }
 }

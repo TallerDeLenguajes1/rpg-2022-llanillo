@@ -1,7 +1,8 @@
-﻿using Videojuego;
-using static Videojuego.UtilidadJuego;
+﻿using static Videojuego.UtilidadJuego;
 
-public class Program
+namespace Videojuego;
+
+public static class Program
 {
 
     private const int CantidadTurnos = 3;
