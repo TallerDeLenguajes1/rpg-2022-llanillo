@@ -1,15 +1,15 @@
-﻿namespace Videojuego;
+﻿namespace Videojuego.Atributos;
 
 /*
  * Estructura que define todos los atributos del personaje
  */
 public struct Datos
 {
-    public float Velocidad ;
-    public float Destreza;
-    public float Fuerza;
-    public int Nivel;
-    public float Armadura;
+    public float Velocidad { get; set; }
+    public float Destreza { get; set; }
+    public float Fuerza { get; set; }
+    public int Nivel { get; set; }
+    public float Armadura { get; set; }
 
     public float PoderDeAtaque()
     {

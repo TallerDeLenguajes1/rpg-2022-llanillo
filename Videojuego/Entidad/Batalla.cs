@@ -1,13 +1,11 @@
-﻿using static Videojuego.UtilidadJuego;
-
-namespace Videojuego;
+﻿namespace Videojuego.Entidad;
 
 public class Batalla
 {
     private const int CantidadTurnos = 3;
     private readonly List<Personaje> _peleadores = new List<Personaje>();
 
-    private Personaje? _ganador = null;
+    private Personaje? _ganador;
     
     /*
      * Realiza la batlla más épica entre los dos peleadores recibidos
@@ -96,8 +94,7 @@ public class Batalla
      */
     public void VerDatosGanador()
     {
-        if (_ganador == null) return;
-        _ganador.MostrarDatos();
+        _ganador?.MostrarDatos();
     }
 
     /*
@@ -105,7 +102,6 @@ public class Batalla
      */
     public void VerCaracteristicasGanador()
     {
-        if (_ganador == null) return;
-        _ganador.MostrarCaracteristicas();
+        _ganador?.MostrarCaracteristicas();
     }
 }

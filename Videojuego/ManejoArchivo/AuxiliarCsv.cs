@@ -1,19 +1,16 @@
-﻿
-using System.Diagnostics.CodeAnalysis;
-
-namespace Videojuego;
+﻿namespace Videojuego.ManejoArchivo;
 
 public class AuxiliarCsv
 {
     private const string NombreArchivo = "ganadores.csv";
     private const string SeparadorCsv = ";";
 
-    private const string Titulo = "Ganadores";
+    private const string Titulo = "--- Ganadores ---";
     private const string PrimeraColumna = "Nombre";
     private const string SegundaColumna = "Apodo";
     private const string TerceraColumna = "Edad";
     
-    private string _path;
+    private readonly string _path;
     
     public AuxiliarCsv(string path)
     {
@@ -86,7 +83,10 @@ public class AuxiliarCsv
         try
         {
             using TextReader streamReader = new StreamReader(_path);
-            
+            var textoArchivo = streamReader.ReadToEnd();
+            textoArchivo = textoArchivo.Replace(";", " ");
+            Console.WriteLine(textoArchivo);
+
         }
         catch (Exception e)
         {

@@ -1,4 +1,4 @@
-﻿namespace Videojuego;
+﻿namespace Videojuego.Atributos;
 
 /*
  * Enumeración que define los tipos de personaje

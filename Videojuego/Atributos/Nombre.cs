@@ -1,4 +1,4 @@
-﻿namespace Videojuego;
+﻿namespace Videojuego.Atributos;
 
 /*
  * Clase utilidad para guardar y obtener nombres aleatorios

@@ -1,4 +1,4 @@
-﻿namespace Videojuego;
+﻿namespace Videojuego.Utilidad;
 
 public static class UtilidadFecha
 {

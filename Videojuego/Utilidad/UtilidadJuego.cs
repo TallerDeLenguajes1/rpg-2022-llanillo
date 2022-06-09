@@ -1,6 +1,8 @@
-﻿using static Videojuego.UtilidadFecha;
+﻿using Videojuego.Atributos;
+using Videojuego.Entidad;
+using static Videojuego.Utilidad.UtilidadFecha;
 
-namespace Videojuego;
+namespace Videojuego.Utilidad;
 
 public static class UtilidadJuego
 {
