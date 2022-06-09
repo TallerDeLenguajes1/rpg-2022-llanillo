@@ -3,15 +3,18 @@ namespace Videojuego;
 public class Personaje{
 
     private const int MaximoDanoProvocable = 50000;
+    private const int MaximaEfectividadDisparo = 101;
     
+    private const int Porcentaje = 100;
+
+    private const int AumentoSalud = 10;
+    
+    public Caracteristicas Caracteristicas => _caracteristicas;
     private Caracteristicas _caracteristicas;
-    private Datos _datos;
     
     public Datos Datos => _datos;
-
-    public Caracteristicas Caracteristicas => _caracteristicas;
+    private Datos _datos;
     
-
     public Personaje(Datos datos, Caracteristicas caracteristicas)
     {
         _datos = datos;
@@ -24,9 +27,9 @@ public class Personaje{
     public int AtacarPersonaje(ref Personaje personaje)
     {
         Random aleatorio = new Random();
-        int efectividadDisparo = aleatorio.Next(101);
+        int efectividadDisparo = aleatorio.Next(MaximaEfectividadDisparo);
         double valorAtaque = _datos.PoderDeAtaque() * efectividadDisparo;
-        var danoProvocado = (int)(((valorAtaque - personaje.Datos.PoderDeDefensa()) / MaximoDanoProvocable) * 100);
+        var danoProvocado = (int)(((valorAtaque - personaje.Datos.PoderDeDefensa()) / MaximoDanoProvocable) * Porcentaje);
         personaje._caracteristicas.Salud -= danoProvocado;
 
         return danoProvocado;
@@ -38,12 +41,12 @@ public class Personaje{
     public void SubirNivel()
     {
         Random aleatorio = new Random();
-        float porcentajePoder = 1 + aleatorio.Next(5, 11) / 100;
+        float porcentajePoder = 1 + aleatorio.Next(5, 11) / Porcentaje;
             
         switch (aleatorio.Next(5))
         {
             case 0:
-                _caracteristicas.Salud += 10;
+                _caracteristicas.Salud += AumentoSalud;
                 break;
             case 1:
                 _datos.Fuerza *= porcentajePoder;
@@ -62,17 +65,42 @@ public class Personaje{
         _datos.Nivel++;
     }
     
-    public int ObtenerSalud()
+    /*
+    * Muestra las características del personaje
+    */
+    public void MostrarCaracteristicas()
+    {
+        Console.WriteLine("Tipo: " + Caracteristicas.Tipo);
+        Console.WriteLine("Nombre: " + Caracteristicas.Nombre);
+        Console.WriteLine("Apodo: " + Caracteristicas.Apodo);
+        Console.WriteLine("Fecha Nacimiento: " + Caracteristicas.FechaNacimiento);
+        Console.WriteLine("Edad: " + Caracteristicas.Edad);
+        Console.WriteLine("Salud: " + Caracteristicas.Salud);  
+    }
+    
+    /*
+     * Muestra los datos del personaje
+     */
+    public void MostrarDatos()
+    {
+        Console.WriteLine("Velocidad: " + Datos.Velocidad);
+        Console.WriteLine("Destreza: " + Datos.Destreza);
+        Console.WriteLine("Fuerza: " + Datos.Fuerza);
+        Console.WriteLine("Nivel: " + Datos.Nivel);
+        Console.WriteLine("Amardura: " + Datos.Armadura);
+    }
+    
+    public int VerSalud()
     {
         return _caracteristicas.Salud;
     }
 
-    public string ObtenerNombre()
+    public string VerNombre()
     {
         return _caracteristicas.Nombre ?? string.Empty;
     }
 
-    public string ObtenerApodo()
+    public string VerApodo()
     {
         return _caracteristicas.Apodo ?? string.Empty;
     }

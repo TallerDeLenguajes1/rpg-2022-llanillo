@@ -1,6 +1,6 @@
 ﻿namespace Videojuego;
 
-public class UtilidadFecha
+public static class UtilidadFecha
 {
     /*
      * Devuelve una fecha aleatoria desde 1940 hasta 2022
