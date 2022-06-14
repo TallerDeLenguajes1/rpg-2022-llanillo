@@ -1,27 +1,48 @@
-﻿namespace Videojuego.Entidad;
+﻿using System.Collections;
+
+namespace Videojuego.Entidad;
 
 public class Batalla
 {
     private const int CantidadTurnos = 3;
-    private readonly List<Personaje> _peleadores = new List<Personaje>();
+    private readonly Queue<Personaje> _peleadores = new();
 
-    private Personaje? _ganador;
+    private Personaje? _ganadorReciente;
+
+    /*
+     * Agrega un peleador a la lista de futuros peleadores
+     */
+    public void AgregarPeleador(Personaje peleador)
+    {
+        _peleadores.Enqueue(peleador);
+    }
+
+    /*
+     * Agrega una lista de peleadores a la batalla
+     */
+    public void AgregarPeleador(IEnumerable<Personaje> lista)
+    {
+        foreach (var peleador in lista)
+        {
+            _peleadores.Enqueue(peleador);
+        }
+    }
     
     /*
-     * Realiza la batlla más épica entre los dos peleadores recibidos
+     * Realiza la batlla más épica entre los dos siguientes peleadores,
+     * si no hay suficientes peleadores, devuelve el último ganador
      */
-    public Personaje? EjecutarBatalla(ref Personaje peleador1, ref Personaje peleador2)
+    public Personaje? IniciarSiguienteBatalla()
     {
-        _peleadores.Add(peleador1);
-        _peleadores.Add(peleador2);
+        if (_peleadores.Count <= 1) return _ganadorReciente;
         
-        Console.WriteLine("--- Lista de Peleadores ---\n");
-        foreach(Personaje temporal in _peleadores)
-        {
-            Console.WriteLine("--- Peleador ---");
-            temporal.MostrarCaracteristicas();
-            Console.WriteLine();
-        }
+        Personaje peleador1 = _peleadores.Dequeue();
+        Personaje peleador2 = _peleadores.Dequeue();
+        
+        Console.WriteLine("--- Peleadores del round ---\n");
+        peleador1.MostrarCaracteristicas();
+        Console.WriteLine();
+        peleador2.MostrarCaracteristicas();
 
         Console.WriteLine("\n--- Inicio de lucha ---");
         for (uint i = 0; i < CantidadTurnos * 2; i++)
@@ -37,37 +58,31 @@ public class Batalla
         }
         Console.Write("--- Fin de la lucha ---\n");
         
-        switch (peleador1.VerSalud())
+        _ganadorReciente = peleador1.VerSalud() switch
         {
-            case var _ when peleador1.VerSalud() < peleador2.VerSalud():
-                _ganador = peleador2;
-                _peleadores.Remove(peleador1);
-                break;
-            case var _ when peleador1.VerSalud() > peleador2.VerSalud():
-                _ganador = peleador1;
-                _peleadores.Remove(peleador2);
-                break;
-            default:
-                _ganador = null;
-                break;
-        }
-        
+            _ when peleador1.VerSalud() < peleador2.VerSalud() => peleador2,
+            _ when peleador1.VerSalud() > peleador2.VerSalud() => peleador1,
+            _ => null
+        };
+
         Console.WriteLine("\n--- Salud final ---");
         Console.WriteLine(peleador1.VerNombre() + " " + peleador1.VerApodo() + " - " + peleador1.VerSalud()); 
         Console.WriteLine(peleador2.VerNombre() + " " + peleador2.VerApodo() + " - " + peleador2.VerSalud() + '\n'); 
         
-        if (_ganador == null)
+        if (_ganadorReciente == null)
         {
             Console.WriteLine("--- Hubo empate entre los peleadores ---");
         }
         else
         {
-            _ganador.SubirNivel();
+            _ganadorReciente.SubirNivel();
+            _peleadores.Enqueue(_ganadorReciente);
+
             Console.WriteLine("--- Felicidades al ganador ---");
-            Console.WriteLine(_ganador.VerNombre() + " " + _ganador.VerApodo());
+            Console.WriteLine(_ganadorReciente.VerNombre() + " " + _ganadorReciente.VerApodo() + '\n');
         }
 
-        return _ganador;
+        return _ganadorReciente;
     }
 
     /*
@@ -86,7 +101,7 @@ public class Batalla
      */
     public Personaje? VerGanador()
     {
-        return _ganador;
+        return _ganadorReciente;
     }
     
     /*
@@ -94,7 +109,7 @@ public class Batalla
      */
     public void VerDatosGanador()
     {
-        _ganador?.MostrarDatos();
+        _ganadorReciente?.MostrarDatos();
     }
 
     /*
@@ -102,6 +117,6 @@ public class Batalla
      */
     public void VerCaracteristicasGanador()
     {
-        _ganador?.MostrarCaracteristicas();
+        _ganadorReciente?.MostrarCaracteristicas();
     }
 }

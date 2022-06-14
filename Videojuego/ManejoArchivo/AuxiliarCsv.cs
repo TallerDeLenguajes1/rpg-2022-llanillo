@@ -1,4 +1,6 @@
-﻿namespace Videojuego.ManejoArchivo;
+﻿using System;
+
+namespace Videojuego.ManejoArchivo;
 
 public class AuxiliarCsv
 {
@@ -10,20 +12,24 @@ public class AuxiliarCsv
     private const string SegundaColumna = "Apodo";
     private const string TerceraColumna = "Edad";
     
-    private readonly string _path;
+    private readonly string _pathArchivo;
+    private readonly string _pathCarpeta;
     
     public AuxiliarCsv(string path)
     {
-        _path = path + @"\" + NombreArchivo;
+        _pathCarpeta = path;
+        _pathArchivo = path + @"\" + NombreArchivo;
     }
 
     public void IniciarArchivo()
     {
-        if (File.Exists(_path)) return;
+        if (File.Exists(_pathArchivo)) return;
+
+        Directory.CreateDirectory(_pathCarpeta);
         
         try
         {
-            using TextWriter streamWriter = new StreamWriter(_path);
+            using TextWriter streamWriter = new StreamWriter(_pathArchivo);
             streamWriter.WriteLine(SeparadorCsv + Titulo);
             streamWriter.Write(SeparadorCsv + PrimeraColumna);
             streamWriter.Write(SeparadorCsv + SegundaColumna);
@@ -43,7 +49,7 @@ public class AuxiliarCsv
     {
         try
         {
-            using TextWriter streamWriter = File.AppendText(_path);
+            using TextWriter streamWriter = File.AppendText(_pathArchivo);
             streamWriter.Write(SeparadorCsv + texto);
             return true;
         }
@@ -62,7 +68,7 @@ public class AuxiliarCsv
     {
         try
         {
-            using TextWriter streamWriter = File.AppendText(_path);
+            using TextWriter streamWriter = File.AppendText(_pathArchivo);
             streamWriter.WriteLine(SeparadorCsv + texto);
             return true;
         }
@@ -78,11 +84,11 @@ public class AuxiliarCsv
      */
     public void LeerArchivo()
     {
-        if (!File.Exists(_path)) return;
+        if (!File.Exists(_pathArchivo)) return;
         
         try
         {
-            using TextReader streamReader = new StreamReader(_path);
+            using TextReader streamReader = new StreamReader(_pathArchivo);
             var textoArchivo = streamReader.ReadToEnd();
             textoArchivo = textoArchivo.Replace(";", " ");
             Console.WriteLine(textoArchivo);
