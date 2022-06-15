@@ -7,7 +7,7 @@ public class Batalla
     private const int CantidadTurnos = 3;
     private readonly Queue<Personaje> _peleadores = new();
 
-    private Personaje? _ganadorReciente;
+    private Personaje? _ganador;
 
     /*
      * Agrega un peleador a la lista de futuros peleadores
@@ -20,7 +20,7 @@ public class Batalla
     /*
      * Agrega una lista de peleadores a la batalla
      */
-    public void AgregarPeleador(IEnumerable<Personaje> lista)
+    public void AgregarPeleadores(IEnumerable<Personaje> lista)
     {
         foreach (var peleador in lista)
         {
@@ -34,7 +34,7 @@ public class Batalla
      */
     public Personaje? IniciarSiguienteBatalla()
     {
-        if (_peleadores.Count <= 1) return _ganadorReciente;
+        if (_peleadores.Count <= 1) return _ganador;
         
         Personaje peleador1 = _peleadores.Dequeue();
         Personaje peleador2 = _peleadores.Dequeue();
@@ -58,7 +58,7 @@ public class Batalla
         }
         Console.Write("--- Fin de la lucha ---\n");
         
-        _ganadorReciente = peleador1.VerSalud() switch
+        _ganador = peleador1.VerSalud() switch
         {
             _ when peleador1.VerSalud() < peleador2.VerSalud() => peleador2,
             _ when peleador1.VerSalud() > peleador2.VerSalud() => peleador1,
@@ -69,20 +69,20 @@ public class Batalla
         Console.WriteLine(peleador1.VerNombre() + " " + peleador1.VerApodo() + " - " + peleador1.VerSalud()); 
         Console.WriteLine(peleador2.VerNombre() + " " + peleador2.VerApodo() + " - " + peleador2.VerSalud() + '\n'); 
         
-        if (_ganadorReciente == null)
+        if (_ganador == null)
         {
             Console.WriteLine("--- Hubo empate entre los peleadores ---");
         }
         else
         {
-            _ganadorReciente.SubirNivel();
-            _peleadores.Enqueue(_ganadorReciente);
+            _ganador.SubirNivel();
+            _peleadores.Enqueue(_ganador);
 
             Console.WriteLine("--- Felicidades al ganador ---");
-            Console.WriteLine(_ganadorReciente.VerNombre() + " " + _ganadorReciente.VerApodo() + '\n');
+            Console.WriteLine(_ganador.VerNombre() + " " + _ganador.VerApodo() + '\n');
         }
 
-        return _ganadorReciente;
+        return _ganador;
     }
 
     /*
@@ -101,7 +101,7 @@ public class Batalla
      */
     public Personaje? VerGanador()
     {
-        return _ganadorReciente;
+        return _ganador;
     }
     
     /*
@@ -109,7 +109,7 @@ public class Batalla
      */
     public void VerDatosGanador()
     {
-        _ganadorReciente?.MostrarDatos();
+        _ganador?.MostrarDatos();
     }
 
     /*
@@ -117,6 +117,6 @@ public class Batalla
      */
     public void VerCaracteristicasGanador()
     {
-        _ganadorReciente?.MostrarCaracteristicas();
+        _ganador?.MostrarCaracteristicas();
     }
 }

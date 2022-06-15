@@ -1,6 +1,8 @@
 ﻿using Videojuego.Entidad;
+using Videojuego.Utilidad;
 using static Videojuego.Utilidad.UtilidadJuego;
 using static Videojuego.Utilidad.UtilidadCsv;
+using static Videojuego.Utilidad.UtilidadJson;
 
 namespace Videojuego;
 
@@ -10,19 +12,29 @@ public static class Program
 
     public static int Main(string[] args)
     {
-        Console.WriteLine("Ingrese el path donde se guardarán todos los archivos");
-        var path = Console.ReadLine() ?? string.Empty;
-        
         var peleadores = new List<Personaje>();
         var batalla = new Batalla();
         
-        for (var i = 0; i < CantidadPeleadores; i++)
+        Console.WriteLine("Ingrese el path donde se guardarán/cargaran todos los archivos");
+        var path = Console.ReadLine() ?? string.Empty;
+
+        Console.WriteLine("¿Desea generar aleatoriamente los personaes o cargarlos desde un JSON? (0 - Aleatorio, 1 - JSON)");
+        
+        if (int.Parse(Console.ReadLine()) == 0)
         {
-            var peleador = CrearPersonajeAleatorio();
-            peleadores.Add(peleador);
+            for (var i = 0; i < CantidadPeleadores; i++)
+            {
+                var peleador = CrearPersonajeAleatorio();
+                peleadores.Add(peleador);
+            }
+        }
+        else
+        {
+            peleadores = CargarPersonajesDeJson(path);
         }
 
-        batalla.AgregarPeleador(peleadores);
+        batalla.AgregarPeleadores(peleadores);
+        EscribirPersonajesEnJson(path, peleadores);
 
         for (var i = 0; i < CantidadPeleadores; i++)
         {

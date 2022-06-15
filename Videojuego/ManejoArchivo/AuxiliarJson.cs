@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using Videojuego.Entidad;
 
 namespace Videojuego.ManejoArchivo;
 
@@ -7,10 +6,14 @@ public class AuxiliarJson
 {
     private readonly string _pathArchivo;
     
-    public AuxiliarJson(string path)
+    public AuxiliarJson(string path, string nombreArchivo)
     {
-        _pathArchivo = path;
+        _pathArchivo = path + @"\" + nombreArchivo;
     }
+    
+    /*
+    * Crea el archivo JSON y le agrega un objecto
+    */
     public void EscribirLinea(object @object)
     {
         string objectJson = JsonSerializer.Serialize(@object);
@@ -26,7 +29,10 @@ public class AuxiliarJson
         }
     }
 
-    public void EscribirNuevaLinea(object @object)
+    /*
+    * Crea el archivo JSON y le agrega un objecto con un salto de línea
+    */
+    public void EscribirNuevaLinea<T>(T @object)
     {
         string objectJson = JsonSerializer.Serialize(@object);
         
@@ -41,10 +47,12 @@ public class AuxiliarJson
         }
     }
 
-    public List<Personaje>? CargarPersonajes()
+    /*
+     * Devuelve una lista de objectos de tipo T que tiene el archivo JSON
+     */
+    public List<T>?  LeerArchivo<T>()
     {
         using TextReader streamReader = new StreamReader(_pathArchivo);
-        var personajes = JsonSerializer.Deserialize<List<Personaje>>(_pathArchivo);
-        return personajes;
+        return JsonSerializer.Deserialize<List<T>>(streamReader.ReadToEnd());
     }
 }
