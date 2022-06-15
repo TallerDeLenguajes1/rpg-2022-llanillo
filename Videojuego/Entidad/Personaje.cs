@@ -104,4 +104,9 @@ public class Personaje{
     {
         return _caracteristicas.Apodo ?? string.Empty;
     }
+
+    public int VerEdad()
+    {
+        return _caracteristicas.Edad;
+    }
 }

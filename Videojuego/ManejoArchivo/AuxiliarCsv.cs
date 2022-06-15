@@ -4,24 +4,21 @@ namespace Videojuego.ManejoArchivo;
 
 public class AuxiliarCsv
 {
-    private const string NombreArchivo = "ganadores.csv";
     private const string SeparadorCsv = ";";
-
-    private const string Titulo = "--- Ganadores ---";
-    private const string PrimeraColumna = "Nombre";
-    private const string SegundaColumna = "Apodo";
-    private const string TerceraColumna = "Edad";
     
     private readonly string _pathArchivo;
     private readonly string _pathCarpeta;
     
-    public AuxiliarCsv(string path)
+    public AuxiliarCsv(string path, string nombreArchivo)
     {
         _pathCarpeta = path;
-        _pathArchivo = path + @"\" + NombreArchivo;
+        _pathArchivo = path + @"\" + nombreArchivo;
     }
 
-    public void IniciarArchivo()
+    /*
+     * Crea el archivo CSV y le agrega un título y texto a las tres primers columnas
+     */
+    public void IniciarArchivo(string titulo, string primeraCol, string segundaCol, string terceraCol)
     {
         if (File.Exists(_pathArchivo)) return;
 
@@ -30,10 +27,10 @@ public class AuxiliarCsv
         try
         {
             using TextWriter streamWriter = new StreamWriter(_pathArchivo);
-            streamWriter.WriteLine(SeparadorCsv + Titulo);
-            streamWriter.Write(SeparadorCsv + PrimeraColumna);
-            streamWriter.Write(SeparadorCsv + SegundaColumna);
-            streamWriter.WriteLine(SeparadorCsv + TerceraColumna);
+            streamWriter.WriteLine(SeparadorCsv + titulo);
+            streamWriter.Write(SeparadorCsv + primeraCol);
+            streamWriter.Write(SeparadorCsv + segundaCol);
+            streamWriter.WriteLine(SeparadorCsv + terceraCol);
 
         }
         catch (Exception e)
@@ -45,18 +42,16 @@ public class AuxiliarCsv
     /*
      * Retorna verdadero si la escritura fue exitosa
      */
-    public bool EscribirLinea(string? texto)
+    public void EscribirLinea(string? texto)
     {
         try
         {
             using TextWriter streamWriter = File.AppendText(_pathArchivo);
             streamWriter.Write(SeparadorCsv + texto);
-            return true;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return false;
         }
     }
 
@@ -64,18 +59,16 @@ public class AuxiliarCsv
      * Escribe el texto en el archivo y agrega un salto de línea.
      * Retorna verdadero si la escritura fue exitosa.
      */
-    public bool EscribirNuevaLinea(string? texto)
+    public void EscribirNuevaLinea(string? texto)
     {
         try
         {
             using TextWriter streamWriter = File.AppendText(_pathArchivo);
             streamWriter.WriteLine(SeparadorCsv + texto);
-            return true;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            return false;
         }
     }
 
