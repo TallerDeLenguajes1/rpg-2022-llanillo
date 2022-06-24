@@ -66,30 +66,30 @@ public class Personaje{
     }
     
     /*
-    * Muestra las características del personaje
+    * Devuelve las características del personaje
     */
-    public void MostrarCaracteristicas()
+    public string VerCaracteristicas()
     {
-        Console.WriteLine("Tipo: " + _caracteristicas.Tipo);
-        Console.WriteLine("Nombre: " + _caracteristicas.Nombre);
-        Console.WriteLine("Apodo: " + _caracteristicas.Apodo);
-        Console.WriteLine("Fecha Nacimiento: " + _caracteristicas.FechaNacimiento);
-        Console.WriteLine("Edad: " + _caracteristicas.Edad);
-        Console.WriteLine("Salud: " + _caracteristicas.Salud);  
+        return "Tipo: " + _caracteristicas.Tipo + '\n'
+               + "Nombre: " + _caracteristicas.Nombre + '\n'
+               + "Apodo: " + _caracteristicas.Apodo + '\n'
+               + "Fecha Nacimiento: " + _caracteristicas.FechaNacimiento + '\n'
+               + "Edad: " + _caracteristicas.Edad + '\n'
+               + "Salud: " + _caracteristicas.Salud + '\n';
     }
     
     /*
-     * Muestra los datos del personaje
+     * Devuelve los datos del personaje
      */
-    public void MostrarDatos()
+    public string VerDatos()
     {
-        Console.WriteLine("Velocidad: " + _datos.Velocidad);
-        Console.WriteLine("Destreza: " + _datos.Destreza);
-        Console.WriteLine("Fuerza: " + _datos.Fuerza);
-        Console.WriteLine("Nivel: " + _datos.Nivel);
-        Console.WriteLine("Amardura: " + _datos.Armadura);
+        return "Velocidad: " + _datos.Velocidad + '\n'
+               + "Destreza: " + _datos.Destreza + '\n'
+               + "Fuerza: " + _datos.Fuerza + '\n'
+               + "Nivel: " + _datos.Nivel + '\n'
+               + "Amardura: " + _datos.Armadura + '\n';
     }
-    
+
     public int VerSalud()
     {
         return _caracteristicas.Salud;

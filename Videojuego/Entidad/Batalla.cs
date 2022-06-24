@@ -39,11 +39,11 @@ public class Batalla
         Personaje peleador1 = _peleadores.Dequeue();
         Personaje peleador2 = _peleadores.Dequeue();
         
-        Console.WriteLine("--- Peleadores del round ---\n");
-        peleador1.MostrarCaracteristicas();
-        Console.WriteLine();
-        peleador2.MostrarCaracteristicas();
-
+        Console.WriteLine("--- Peleadores del round ---\n" +
+                          peleador1.VerCaracteristicas() +
+                          '\n' +
+                          peleador2.VerCaracteristicas());
+        
         Console.WriteLine("\n--- Inicio de lucha ---");
         for (uint i = 0; i < CantidadTurnos * 2; i++)
         {
@@ -107,16 +107,16 @@ public class Batalla
     /*
      * Muestra los datos del ganador
      */
-    public void VerDatosGanador()
+    public string? VerDatosGanador()
     {
-        _ganador?.MostrarDatos();
+        return _ganador?.VerDatos();
     }
 
     /*
      * Muestra las características del ganador
      */
-    public void VerCaracteristicasGanador()
+    public string? VerCaracteristicasGanador()
     {
-        _ganador?.MostrarCaracteristicas();
+        return _ganador?.VerCaracteristicas();
     }
 }
