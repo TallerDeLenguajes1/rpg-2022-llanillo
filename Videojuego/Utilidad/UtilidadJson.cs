@@ -1,4 +1,5 @@
 ﻿using Videojuego.Entidad;
+using static Videojuego.Utilidad.UtilidadPath;
 using Videojuego.ManejoArchivo;
 
 namespace Videojuego.Utilidad;
@@ -10,18 +11,20 @@ public static class UtilidadJson
     /*
      * Escribe los datos de los personajes en un archivo json
      */
-    public static void EscribirPersonajesEnJson<T>(string path, List<T> lista)
+    public static void EscribirPersonajesEnJson<T>(List<T> lista)
     {
-        var auxiliarJson = new AuxiliarJson(path, NombreArchivo);
+        string pathActual = VerPathProyecto();
+        var auxiliarJson = new AuxiliarJson(pathActual, NombreArchivo);
         auxiliarJson.EscribirNuevaLinea(lista);
     }
     
     /*
      * Lee los ganadores de un archivo CSV
      */
-    public static List<Personaje>? CargarPersonajesDeJson(string path)
+    public static List<Personaje>? CargarPersonajesDeJson()
     {
-        var auxiliarJson = new AuxiliarJson(path, NombreArchivo);
+        string pathActual = VerPathProyecto();
+        var auxiliarJson = new AuxiliarJson(pathActual, NombreArchivo);
         return auxiliarJson.LeerArchivo<Personaje>();
     }
 }

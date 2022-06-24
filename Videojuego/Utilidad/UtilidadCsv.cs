@@ -1,4 +1,5 @@
 ﻿using Videojuego.ManejoArchivo;
+using static Videojuego.Utilidad.UtilidadPath;
 
 namespace Videojuego.Utilidad;
 
@@ -14,9 +15,10 @@ public static class UtilidadCsv
     /*
      * Escribe los datos de un ganador en un archivo CSV
      */
-    public static void EscribirGanadorEnCsv(string path, string nombre, string apodo, int edad)
+    public static void EscribirGanadorEnCsv(string nombre, string apodo, int edad)
     {
-        var auxiliarCsv = new AuxiliarCsv(path, NombreArchivo);
+        string pathActual = VerPathProyecto();
+        var auxiliarCsv = new AuxiliarCsv(pathActual, NombreArchivo);
         auxiliarCsv.IniciarArchivo(Titulo, PrimeraColumna, SegundaColumna, TerceraColumna);
         auxiliarCsv.EscribirLinea(nombre);
         auxiliarCsv.EscribirLinea(apodo);
@@ -26,7 +28,7 @@ public static class UtilidadCsv
     /*
      * Lee los ganadores de un archivo CSV
      */
-    public static void VerGanadoresEnCsv(string path)
+    public static void VerGanadoresEnCsv()
     {
         Console.WriteLine("¿Desea ver los ganadores anteriores? (0 - Sí, 1 - No)");
         var opcion = Console.ReadLine();
@@ -34,7 +36,8 @@ public static class UtilidadCsv
         switch (opcion?.ToLower())
         {
             case "0":
-                var auxiliarCsv = new AuxiliarCsv(path, NombreArchivo);
+                string pathActual = VerPathProyecto();
+                var auxiliarCsv = new AuxiliarCsv(pathActual, NombreArchivo);
                 auxiliarCsv.LeerArchivo();
                 break;
             default:

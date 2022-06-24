@@ -15,26 +15,40 @@ public static class Program
         var peleadores = new List<Personaje>();
         var batalla = new Batalla();
         
-        Console.WriteLine("Ingrese el path donde se guardarán/cargaran todos los archivos");
-        var path = Console.ReadLine() ?? string.Empty;
-
+        // Console.WriteLine("Ingrese el path donde se guardarán/cargaran todos los archivos");
+        // var path = Console.ReadLine() ?? string.Empty;
+        // Console.WriteLine(UtilidadPath.VerPathProyecto());
         Console.WriteLine("¿Desea generar aleatoriamente los personaes o cargarlos desde un JSON? (0 - Aleatorio, 1 - JSON)");
+        var jsonNoEncontrado = 0;
         
-        if (int.Parse(Console.ReadLine()) == 0)
+        while (jsonNoEncontrado != 1)
         {
-            for (var i = 0; i < CantidadPeleadores; i++)
+            if (jsonNoEncontrado == 2 || int.Parse(Console.ReadLine()) == 0)
             {
-                var peleador = CrearPersonajeAleatorio();
-                peleadores.Add(peleador);
+                for (var i = 0; i < CantidadPeleadores; i++)
+                {
+                    var peleador = CrearPersonajeAleatorio();
+                    peleadores.Add(peleador);
+                }
+
+                jsonNoEncontrado = 1;
+            }
+            else
+            {
+                try
+                {
+                    peleadores = CargarPersonajesDeJson();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("No se consiguió un archivo JSON de jugadores, se procederá a crear aleatorios");
+                    jsonNoEncontrado = 2;
+                }
             }
         }
-        else
-        {
-            peleadores = CargarPersonajesDeJson(path);
-        }
-
+        
         batalla.AgregarPeleadores(peleadores);
-        EscribirPersonajesEnJson(path, peleadores);
+        EscribirPersonajesEnJson(peleadores);
 
         for (var i = 0; i < CantidadPeleadores; i++)
         {
@@ -42,11 +56,14 @@ public static class Program
         }
 
         var ganador = batalla.VerGanador();
+
+        if (ganador != null)
+        {
+            Console.Write(ganador.VerCaracteristicas());
+            EscribirGanadorEnCsv(ganador.VerNombre(), ganador.VerApodo(), ganador.VerEdad());
+        }
         
-        if(ganador != null)
-            EscribirGanadorEnCsv(path, ganador.VerNombre(), ganador.VerApodo(), ganador.VerEdad());
-        
-        VerGanadoresEnCsv(path);
+        VerGanadoresEnCsv();
         
         return 0;
     }
