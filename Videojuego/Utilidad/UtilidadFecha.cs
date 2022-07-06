@@ -8,8 +8,7 @@ public static class UtilidadFecha
     public static DateTime CrearFechaAleatoria()
     {
         Random aleatorio = new Random();
-        return new DateTime(aleatorio.Next(1980, 2005), aleatorio.Next(1, 13), 
-            aleatorio.Next(1, 28), aleatorio.Next(24), aleatorio.Next(60), aleatorio.Next(60));
+        return new DateTime(aleatorio.Next(1980, 2005), aleatorio.Next(1, 13),aleatorio.Next(1, 28));
     }
 
     /*
