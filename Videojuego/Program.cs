@@ -1,5 +1,5 @@
 ﻿using Videojuego.Entidad;
-using Videojuego.Utilidad;
+using static Videojuego.Conexion.ServicioGenshin;
 using static Videojuego.Utilidad.UtilidadJuego;
 using static Videojuego.Utilidad.UtilidadCsv;
 using static Videojuego.Utilidad.UtilidadJson;
@@ -12,12 +12,11 @@ public static class Program
 
     public static int Main(string[] args)
     {
+        List<string>? nombresApi = VerGenshinNombres();
         var peleadores = new List<Personaje>();
+        var aleatorio = new Random();
         var batalla = new Batalla();
         
-        // Console.WriteLine("Ingrese el path donde se guardarán/cargaran todos los archivos");
-        // var path = Console.ReadLine() ?? string.Empty;
-        // Console.WriteLine(UtilidadPath.VerPathProyecto());
         Console.WriteLine("¿Desea generar aleatoriamente los personaes o cargarlos desde un JSON? (0 - Aleatorio, 1 - JSON)");
         var jsonNoEncontrado = 0;
         
@@ -27,7 +26,8 @@ public static class Program
             {
                 for (var i = 0; i < CantidadPeleadores; i++)
                 {
-                    var peleador = CrearPersonajeAleatorio();
+                    string nombre = nombresApi?[aleatorio.Next(nombresApi.Count)] ?? string.Empty;
+                    var peleador = CrearPersonajeAleatorio(nombre);
                     peleadores.Add(peleador);
                 }
 

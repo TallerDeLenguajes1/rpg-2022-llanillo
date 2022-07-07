@@ -33,7 +33,7 @@ public static class UtilidadJuego
     /*
      * Devuelve caracteristicas de personaje aleatorias
      */
-    private static Caracteristicas CrearCaracteristicasAleatorias()
+    private static Caracteristicas CrearCaracteristicasAleatorias(string nombre)
     {
         Random aleatorio = new Random();
         var tipos = Enum.GetValues<Tipo>();
@@ -43,7 +43,7 @@ public static class UtilidadJuego
         Caracteristicas caracteristicas = new Caracteristicas
         {
             Tipo = (Tipo) (tipos.GetValue(aleatorio.Next(tipos.Length)) ?? throw new InvalidOperationException()),
-            Nombre = Nombre.ObtenerNombreAleatorio(),
+            Nombre = nombre,
             Apodo = Apodo.ObtenerApodoAleatorio(),
             FechaNacimiento = fechaAleatoria,
             Edad = edad,
@@ -53,8 +53,8 @@ public static class UtilidadJuego
         return caracteristicas;
     }
 
-    public static Personaje CrearPersonajeAleatorio()
+    public static Personaje CrearPersonajeAleatorio(string nombre)
     {
-        return new Personaje(CrearDatosAleatorios(), CrearCaracteristicasAleatorias());
+        return new Personaje(CrearDatosAleatorios(), CrearCaracteristicasAleatorias(nombre));
     }
 }
