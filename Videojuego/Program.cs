@@ -8,45 +8,34 @@ namespace Videojuego;
 
 public static class Program
 {
-    private const int CantidadPeleadores = 5;
+    private const int CantidadPeleadores = 2;
 
     public static int Main(string[] args)
     {
-        List<string>? nombresApi = VerGenshinNombres();
+        List<string>? resultadoApi = VerResultadosApi();
+        
         var peleadores = new List<Personaje>();
-        var aleatorio = new Random();
         var batalla = new Batalla();
         
-        Console.WriteLine("¿Desea generar aleatoriamente los personaes o cargarlos desde un JSON? (0 - Aleatorio, 1 - JSON)");
-        var jsonNoEncontrado = 0;
+        Console.WriteLine("\n¿Desea generar aleatoriamente los personaes o cargarlos desde el JSON? (0 - Aleatorio, 1 - JSON)");
         
-        while (jsonNoEncontrado != 1)
+        if (int.Parse(Console.ReadLine()) == 0)
         {
-            if (jsonNoEncontrado == 2 || int.Parse(Console.ReadLine()) == 0)
+            CrearPersonajesIniciales(resultadoApi, peleadores);
+        }
+        else
+        {
+            try
             {
-                for (var i = 0; i < CantidadPeleadores; i++)
-                {
-                    string nombre = nombresApi?[aleatorio.Next(nombresApi.Count)] ?? string.Empty;
-                    var peleador = CrearPersonajeAleatorio(nombre);
-                    peleadores.Add(peleador);
-                }
-
-                jsonNoEncontrado = 1;
+                peleadores = CargarPersonajesDeJson();
             }
-            else
+            catch (Exception e)
             {
-                try
-                {
-                    peleadores = CargarPersonajesDeJson();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("No se consiguió un archivo JSON de jugadores, se procederá a crear aleatorios");
-                    jsonNoEncontrado = 2;
-                }
+                Console.WriteLine("\nError: No se consiguió un archivo JSON de jugadores, se procederá a crear aleatorios\n");
+                CrearPersonajesIniciales(resultadoApi, peleadores);
             }
         }
-        
+
         batalla.AgregarPeleadores(peleadores);
         EscribirPersonajesEnJson(peleadores);
 
@@ -66,6 +55,16 @@ public static class Program
         VerGanadoresEnCsv();
         
         return 0;
+    }
+
+    private static void CrearPersonajesIniciales(List<string>? resultadoApi, List<Personaje> peleadores)
+    {
+        for (var i = 0; i < CantidadPeleadores; i++)
+        {
+            var nombreAleatorio = resultadoApi?[new Random().Next(resultadoApi.Count)] ?? string.Empty;
+            var peleador = CrearPersonajeAleatorio(nombreAleatorio);
+            peleadores.Add(peleador);
+        }
     }
 }
 
