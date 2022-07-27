@@ -11,12 +11,12 @@ public struct Datos
     public int Nivel { get; set; }
     public float Armadura { get; set; }
 
-    public float PoderDeAtaque()
+    public float VerPoderDeAtaque()
     {
         return Destreza * Fuerza * Nivel;
     }
 
-    public float PoderDeDefensa()
+    public float VerPoderDeDefensa()
     {
         return Armadura * Velocidad;
     }

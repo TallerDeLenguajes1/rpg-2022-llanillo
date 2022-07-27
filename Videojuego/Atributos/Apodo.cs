@@ -5,11 +5,10 @@
  */
 public static class Apodo
 {
-    private static readonly string[] Apodos = { "Mata-Dragones", "Mata-Chorizos", "Mata-Suegras", "Destructor", "Peregrino" };
+    private static readonly string[] Apodos = { "Mata-Dragones", "Come-Chorizos", "Besa-Suegras", "Destructor", "Peregrino" };
 
-    public static string ObtenerApodoAleatorio()
+    public static string VerApodoAleatorio()
     {
-        Random aleatorio = new Random();
-        return Apodos[aleatorio.Next(Apodos.Length)];
+        return Apodos[new Random().Next(Apodos.Length)];
     }
 }
