@@ -30,7 +30,7 @@ public static class UtilidadCsv
      */
     public static void VerGanadoresEnCsv()
     {
-        Console.WriteLine("¿Desea ver los ganadores anteriores? (0 - Sí, 1 - No)");
+        Console.WriteLine("\n¿Desea ver los ganadores anteriores? (0 - Sí, 1 - No)");
         var opcion = Console.ReadLine();
         
         switch (opcion?.ToLower())
@@ -39,6 +39,8 @@ public static class UtilidadCsv
                 string pathActual = VerPathProyecto();
                 var auxiliarCsv = new AuxiliarCsv(pathActual, NombreArchivo);
                 auxiliarCsv.LeerArchivo();
+                break;
+            case "1":
                 break;
             default:
                 Console.WriteLine("No escogió ninguna opción");

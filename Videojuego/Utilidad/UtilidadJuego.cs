@@ -44,7 +44,7 @@ public static class UtilidadJuego
         {
             Tipo = (Tipo) (tipos.GetValue(aleatorio.Next(tipos.Length)) ?? throw new InvalidOperationException()),
             Nombre = nombre,
-            Apodo = Apodo.ObtenerApodoAleatorio(),
+            Apodo = Apodo.VerApodoAleatorio(),
             FechaNacimiento = fechaAleatoria,
             Edad = edad,
             Salud = SaludInicial
