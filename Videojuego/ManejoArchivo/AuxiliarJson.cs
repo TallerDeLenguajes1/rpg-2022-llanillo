@@ -12,30 +12,11 @@ public class AuxiliarJson
     }
     
     /*
-    * Crea el archivo JSON y le agrega un objecto
-    */
-    public void EscribirLinea(object @object)
-    {
-        string objectJson = JsonSerializer.Serialize(@object);
-        
-        try
-        {
-            using TextWriter streamWriter = new StreamWriter(_pathArchivo);
-            streamWriter.Write(objectJson);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
-    }
-
-    /*
     * Crea el archivo JSON y le agrega un objecto con un salto de línea
     */
     public void EscribirNuevaLinea<T>(T @object)
     {
         string objectJson = JsonSerializer.Serialize(@object);
-        
         try
         {
             using TextWriter streamWriter = new StreamWriter(_pathArchivo);
