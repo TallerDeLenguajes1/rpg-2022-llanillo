@@ -1,26 +1,17 @@
-﻿using System.Collections;
-
-namespace Videojuego.Entidad;
+﻿namespace Videojuego.Entidad;
 
 public class Batalla
 {
     private const int CantidadTurnos = 3;
+    private const int MaximoPorcentaje = 100;
+    
     private readonly Queue<Personaje> _peleadores = new();
-
     private Personaje? _ganador;
-
-    /*
-     * Agrega un peleador a la lista de futuros peleadores
-     */
-    public void AgregarPeleador(Personaje peleador)
-    {
-        _peleadores.Enqueue(peleador);
-    }
 
     /*
      * Agrega una lista de peleadores a la batalla
      */
-    public void AgregarPeleadores(IEnumerable<Personaje> lista)
+    public void AgregarPeleadores(List<Personaje> lista)
     {
         foreach (var peleador in lista)
         {
@@ -36,27 +27,25 @@ public class Batalla
     {
         if (_peleadores.Count <= 1) return _ganador;
         
-        Personaje peleador1 = _peleadores.Dequeue();
-        Personaje peleador2 = _peleadores.Dequeue();
+        var peleador1 = _peleadores.Dequeue();
+        var peleador2 = _peleadores.Dequeue();
         
         Console.WriteLine("--- Peleadores del round ---\n" +
                           peleador1.VerCaracteristicas() +
                           '\n' +
                           peleador2.VerCaracteristicas());
         
-        Console.WriteLine("\n--- Inicio de lucha ---");
+        Console.WriteLine("--- Inicio de lucha ---");
         for (uint i = 0; i < CantidadTurnos * 2; i++)
         {
-            if (i % 2 == 0)
-            {
-                MostrarBatalla(peleador1, peleador2, peleador1.AtacarPersonaje(ref peleador2));
-            }
-            else
-            {
-                MostrarBatalla(peleador2, peleador1, peleador2.AtacarPersonaje(ref peleador1));
-            }
+            string? resultado = null;
+
+            resultado = i % 2 == 0
+                ? MostrarBatalla(peleador1, peleador2, AtacarPersonaje(ref peleador1, ref peleador2))
+                : MostrarBatalla(peleador2, peleador1, AtacarPersonaje(ref peleador2, ref peleador1));
+
+            Console.WriteLine(resultado);
         }
-        Console.Write("--- Fin de la lucha ---\n");
         
         _ganador = peleador1.VerSalud() switch
         {
@@ -75,7 +64,7 @@ public class Batalla
         }
         else
         {
-            _ganador.SubirNivel();
+            _ganador.SubirDeNivel();
             _peleadores.Enqueue(_ganador);
 
             Console.WriteLine("--- Felicidades al ganador ---");
@@ -86,13 +75,37 @@ public class Batalla
     }
 
     /*
+     * Devuelve el daño efectuado por el peleador 1 al peleador 2, la vida del
+     * segundo peleador se actualiza en su referencia original
+     * 
+     */
+    private int AtacarPersonaje(ref Personaje peleador1, ref Personaje peleador2)
+    {
+        int efectividadDisparo = new Random().Next(Personaje.MaximaEfectividadDisparo);
+        double valorAtaque = peleador1.VerPoderAtaque() * efectividadDisparo;
+        var danoProvocado = CalcularDano(valorAtaque, peleador2.VerPoderDefensa(), Personaje.MaximoDanoProvocable, MaximoPorcentaje);
+        
+        peleador2.ReducirSalud(danoProvocado);
+
+        return danoProvocado;
+    }
+
+    /*
+     * Devuelve la cantidad de daño efectuado por el ataque
+     */
+    private int CalcularDano(double ataque, double defensa, int maximoDano, int maximoPorcentaje)
+    {
+        return (int)((ataque - defensa) / maximoDano * maximoPorcentaje);
+    }
+    
+    /*
     * Muestra líneas de batallas épicas
     */
-    private static void MostrarBatalla(Personaje atacante, Personaje defensor, int dano)
+    private static string MostrarBatalla(Personaje atacante1, Personaje atacante2, int dano)
     {
-        Console.WriteLine(atacante.VerNombre() + " " + atacante.VerApodo() 
-                        + " realizó " + dano + " de daño a " + defensor.VerNombre() 
-                        + " " + defensor.VerApodo());
+        return atacante1.VerNombre() + " " + atacante1.VerApodo() 
+                        + " realizó " + dano + " de daño a " + atacante2.VerNombre() 
+                        + " " + atacante2.VerApodo();
     }
 
     /*

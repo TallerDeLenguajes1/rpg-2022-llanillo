@@ -4,44 +4,39 @@ namespace Videojuego.Entidad;
 
 public class Personaje{
 
-    private const int MaximoDanoProvocable = 50000;
-    private const int MaximaEfectividadDisparo = 101;
+    public const int MaximoDanoProvocable = 50000;
+    public const int MaximaEfectividadDisparo = 101;
     
-    private const int Porcentaje = 100;
+    private const int MaximoPorcentaje = 100;
     private const int AumentoSalud = 10;
 
-    public Caracteristicas Caracteristicas => _caracteristicas;
     private Caracteristicas _caracteristicas;
-    public Datos Datos => _datos;
+    public Caracteristicas Caracteristicas
+    {
+        get => _caracteristicas;
+        set => _caracteristicas = value;
+    }
+
     private Datos _datos;
-    
+    public Datos Datos
+    {
+        get => _datos;
+        set => _datos = value;
+    }
+
     public Personaje(Datos datos, Caracteristicas caracteristicas)
     {
-        _datos = datos;
-        _caracteristicas = caracteristicas;
-    }
-    
-    /*
-     * Actualiza la vida del personaje recibido según el daño generado aleatoriamente
-     */
-    public int AtacarPersonaje(ref Personaje personaje)
-    {
-        Random aleatorio = new Random();
-        int efectividadDisparo = aleatorio.Next(MaximaEfectividadDisparo);
-        double valorAtaque = _datos.PoderDeAtaque() * efectividadDisparo;
-        var danoProvocado = (int)(((valorAtaque - personaje._datos.PoderDeDefensa()) / MaximoDanoProvocable) * Porcentaje);
-        personaje._caracteristicas.Salud -= danoProvocado;
-
-        return danoProvocado;
+        Datos = datos;
+        Caracteristicas = caracteristicas;
     }
 
     /*
      * Se aumenta un dato aleatorio con valores aleatorios
      */
-    public void SubirNivel()
+    public void SubirDeNivel()
     {
-        Random aleatorio = new Random();
-        float porcentajePoder = 1 + aleatorio.Next(5, 11) / Porcentaje;
+        var aleatorio = new Random();
+        float porcentajePoder = 1 + aleatorio.Next(5, 11) / MaximoPorcentaje;
             
         switch (aleatorio.Next(5))
         {
@@ -64,18 +59,23 @@ public class Personaje{
 
         _datos.Nivel++;
     }
+
+    public void ReducirSalud(int cantidad)
+    {
+        _caracteristicas.Salud -= cantidad;
+    }
     
     /*
     * Devuelve las características del personaje
     */
     public string VerCaracteristicas()
     {
-        return "Tipo: " + _caracteristicas.Tipo + '\n'
-               + "Nombre: " + _caracteristicas.Nombre + '\n'
-               + "Apodo: " + _caracteristicas.Apodo + '\n'
-               + "Fecha Nacimiento: " + _caracteristicas.FechaNacimiento + '\n'
-               + "Edad: " + _caracteristicas.Edad + '\n'
-               + "Salud: " + _caracteristicas.Salud + '\n';
+        return "Tipo: " + Caracteristicas.Tipo + '\n'
+               + "Nombre: " + Caracteristicas.Nombre + '\n'
+               + "Apodo: " + Caracteristicas.Apodo + '\n'
+               + "Fecha Nacimiento: " + Caracteristicas.FechaNacimiento.ToShortDateString() + '\n'
+               + "Edad: " + Caracteristicas.Edad + '\n'
+               + "Salud: " + Caracteristicas.Salud + '\n';
     }
     
     /*
@@ -83,30 +83,58 @@ public class Personaje{
      */
     public string VerDatos()
     {
-        return "Velocidad: " + _datos.Velocidad + '\n'
-               + "Destreza: " + _datos.Destreza + '\n'
-               + "Fuerza: " + _datos.Fuerza + '\n'
-               + "Nivel: " + _datos.Nivel + '\n'
-               + "Amardura: " + _datos.Armadura + '\n';
+        return "Velocidad: " + Datos.Velocidad + '\n'
+               + "Destreza: " + Datos.Destreza + '\n'
+               + "Fuerza: " + Datos.Fuerza + '\n'
+               + "Nivel: " + Datos.Nivel + '\n'
+               + "Amardura: " + Datos.Armadura + '\n';
     }
 
+    /*
+     * Devuelve el poder de ataque
+     */
+    public float VerPoderAtaque()
+    {
+        return Datos.VerPoderDeAtaque();
+    }
+
+    /*
+     * Devuelve el poder de defensa
+     */
+    public float VerPoderDefensa()
+    {
+        return Datos.VerPoderDeDefensa();
+    }
+    
+    /*
+     * Devuelve la cantidad de salud 
+     */
     public int VerSalud()
     {
-        return _caracteristicas.Salud;
+        return Caracteristicas.Salud;
     }
 
+    /*
+     * Devuelve el nombre del peleador
+     */
     public string VerNombre()
     {
-        return _caracteristicas.Nombre ?? string.Empty;
+        return Caracteristicas.Nombre ?? string.Empty;
     }
 
+    /*
+     * Devuelve el apodo del peleador
+     */
     public string VerApodo()
     {
-        return _caracteristicas.Apodo ?? string.Empty;
+        return Caracteristicas.Apodo ?? string.Empty;
     }
 
+    /*
+     * Devuelve la edad del peleador
+     */
     public int VerEdad()
     {
-        return _caracteristicas.Edad;
+        return Caracteristicas.Edad;
     }
 }
